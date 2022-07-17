@@ -6,6 +6,7 @@ const port = process.env.PORT || 5000
 
 const Category = require('./models/category')
 const categoriesRouter = require('./routes/categories')
+const categoryRouter = require('./routes/category')
 
 app.get('/', (req, res, next) => {
   res.end('hello world')
@@ -16,6 +17,7 @@ app.use(express.json())
 //app.use(require('./routes/record'))
 
 app.use('/categories', categoriesRouter)
+app.use('/category', categoryRouter)
 
 const mongoose = require('mongoose')
 const mongoDB = process.env.ATLAS_URI
@@ -30,7 +32,17 @@ const test = new Category({
   description: 'central processing unit, testing ',
 })
 
+const test2 = new Category({
+  title: 'GPU',
+  description: 'video card',
+})
+
 test.save((err, test) => {
+  if (err) return console.error(err)
+  console.log(test.title + ' saved to db')
+})
+
+test2.save((err, test) => {
   if (err) return console.error(err)
   console.log(test.title + ' saved to db')
 })
